@@ -50,7 +50,18 @@ class MyRotationGestureRecognizer: UIRotationGestureRecognizer, GestureRecognize
     }
 }
 
-extension UIGestureRecognizer.State {
+extension UIGestureRecognizer.State: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .began: return "Began"
+        case .possible: return "possible"
+        case .changed: return "changed"
+        case .ended: return "ended"
+        case .cancelled: return "cancelled"
+        case .failed: return "failed"
+        }
+    }
+
     var isTerminalState: Bool {
         switch self {
         case .cancelled, .failed, .ended: return true

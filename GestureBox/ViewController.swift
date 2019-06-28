@@ -16,16 +16,16 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        topStack.addArrangedSubview(gestureView.pan.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.tap.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.pinch.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.spin.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.swipeUp.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.swipeLeft.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.swipeDown.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.swipeRight.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.longPress.gestureDelegateView)
-        topStack.addArrangedSubview(gestureView.force.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.pan.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.tap.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.pinch.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.spin.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.swipeUp.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.swipeLeft.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.swipeDown.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.swipeRight.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.longPress.gestureDelegateView)
+//        topStack.addArrangedSubview(gestureView.force.gestureDelegateView)
     }
 }
 

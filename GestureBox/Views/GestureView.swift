@@ -128,3 +128,43 @@ class GestureView: UIView {
     }
 }
 
+extension GestureView: UICollectionViewDataSource {
+    enum Items: CaseIterable {
+        case tap
+        case pan
+        case pinch
+        case spin
+        case swipeLeft, swipeRight, swipeUp, swipeDown
+        case force
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 9
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! GRCollectionViewCell
+        let gr: UIGestureRecognizer = {
+            switch indexPath.row {
+            case 0: return tap
+            case 1: return pan
+            case 2: return pinch
+            case 3: return spin
+            case 4: return swipeLeft
+            case 5: return swipeRight
+            case 6: return swipeUp
+            case 7: return swipeDown
+            case 8: return force
+            default: return tap
+            }
+        }()
+        cell.gestureRecognizer = gr
+        return cell
+    }
+
+
+}
+
+extension GestureView: UICollectionViewDelegate {
+
+}
