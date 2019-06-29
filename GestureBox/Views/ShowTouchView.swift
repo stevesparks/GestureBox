@@ -9,24 +9,21 @@
 import UIKit
 
 class ShowTouchView: UIView {
-    class TouchView: UIView {
-        init() {
-            super.init(frame: .zero)
-            translatesAutoresizingMaskIntoConstraints = false
-            self.backgroundColor = .red
-            addConstraint(widthAnchor.constraint(equalTo: heightAnchor))
-            addConstraint(widthAnchor.constraint(equalToConstant: 44))
+    class TouchLayer: CALayer {
+        override init(layer: Any) {
+            super.init(layer: layer)
+            backgroundColor = UIColor.red.cgColor
+            borderColor = UIColor.white.cgColor
+            borderWidth = 2.0
+        }
+
+        override func layoutSublayers() {
+            cornerRadius = fmin(frame.size.width, frame.size.height)/2.0
+            super.layoutSublayers()
         }
 
         required init?(coder aDecoder: NSCoder) {
             super.init(coder: aDecoder)
-            translatesAutoresizingMaskIntoConstraints = false
-            addConstraint(widthAnchor.constraint(equalTo: heightAnchor))
-            addConstraint(widthAnchor.constraint(equalToConstant: 44))
-        }
-
-        override func layoutSubviews() {
-            super.layoutSubviews()
         }
     }
 
@@ -36,28 +33,30 @@ class ShowTouchView: UIView {
         }
     }
 
-    var touchViews = [UITouch: TouchView]()
+    var touchLayers = [UITouch: TouchLayer]()
 
+    var baseLayer = TouchLayer(layer: CALayer())
     func redrawTouches() {
-        let localViewCache = touchViews
-        var newViews = [UITouch: TouchView]()
-        for view in touchViews.values {
-            view.removeFromSuperview()
+        let localViewCache = touchLayers
+        var newViews = [UITouch: TouchLayer]()
+        for layer in touchLayers.values {
+            layer.removeFromSuperlayer()
         }
 
         if let touches = touches {
             for touch in touches {
-                let v = localViewCache[touch] ?? TouchView()
-                addSubview(v)
+                let v = localViewCache[touch] ?? TouchLayer(layer: baseLayer)
+                layer.addSublayer(v)
                 let loc = touch.location(in: self)
-                addConstraints([
-                    v.centerXAnchor.constraint(equalTo: leftAnchor, constant: loc.x),
-                    v.centerYAnchor.constraint(equalTo: topAnchor, constant: loc.y)
-                    ])
+                v.frame = CGRect(x: loc.x - 22, y: loc.y - 22, width: 44, height: 44)
                 newViews[touch] = v
             }
         }
-        touchViews = newViews
+        let erase = localViewCache.values.drop { newViews.values.contains($0) }
+        for layer in erase {
+            layer.removeFromSuperlayer()
+        }
+        touchLayers = newViews
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

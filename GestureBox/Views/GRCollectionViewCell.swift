@@ -37,6 +37,9 @@ class GRCollectionViewCell: UICollectionViewCell {
 
     var gestureRecognizer: UIGestureRecognizer? {
         didSet {
+            if let rec = gestureRecognizer {
+                rec.addTarget(self, action: #selector(gestureRecognizerAction(_:)))
+            }
             populate()
             if let rec = gestureRecognizer as? GestureRecognizerStateChangeBroadcaster {
                 rec.stateDelegate = self
@@ -46,12 +49,16 @@ class GRCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    @objc func gestureRecognizerAction(_ sender: UIGestureRecognizer) {
+        populate()
+    }
+
     func populate() {
         backgroundColor = gestureRecognizer?.stateColor ?? .clear
         if let rec = gestureRecognizer {
             nameLabel.text = rec.broadcasterName
             stateLabel.text = rec.state.description
-            detailsLabel.text = ""
+            detailsLabel.text = rec.details
         } else {
             nameLabel.text = ""
             stateLabel.text = ""
@@ -67,5 +74,4 @@ extension GRCollectionViewCell: GestureRecognizerStateChangeListener {
             self.populate()
         }
     }
-
 }

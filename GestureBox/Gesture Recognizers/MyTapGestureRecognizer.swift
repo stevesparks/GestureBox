@@ -30,4 +30,32 @@ class MyTapGestureRecognizer: UITapGestureRecognizer, GestureRecognizerStateChan
         }
         return super.shouldBeRequiredToFail(by: preventingGestureRecognizer)
     }
+
+    override func require(toFail otherGestureRecognizer: UIGestureRecognizer) {
+        print("Failing -> \(otherGestureRecognizer)")
+        super.require(toFail: otherGestureRecognizer)
+    }
+    
+    var recognizerName: String? {
+        let fingerCount: String = {
+            switch numberOfTouchesRequired {
+            case 1: return ""
+            case 2: return "2-finger "
+            case 3: return "3-finger "
+            default: return "4+-finger"
+            }
+        }()
+        let tapCount: String = {
+            switch numberOfTapsRequired {
+            case 1: return ""
+            case 2: return "Double-"
+            case 3: return "Triple-"
+            default: return ""
+            }
+        }()
+        return "\(fingerCount)\(tapCount)Tap"
+    }
+    var recognizerDetails: String {
+        return ""
+    }
 }

@@ -11,12 +11,18 @@ import UIKit.UIGestureRecognizerSubclass
 
 class ForceTouchGestureRecognizer: UIGestureRecognizer {
     var minimumForceToActivate: CGFloat = 3.0
-    var cancelsIfTouchLightens = true
+    var currentForce: CGFloat = 0.0
+    var cancelsIfTouchLightens = false
     weak var stateDelegate: GestureRecognizerStateChangeListener?
 
     private var trackingTouch: UITouch?
 
     func checkPressure(on touch: UITouch) {
+        if let now = trackingTouch, touch == now {
+            currentForce = touch.force
+        } else if state == .possible || state.isTerminalState {
+            currentForce = touch.force
+        }
         switch state {
         case .possible:
             if touch.force > minimumForceToActivate {
@@ -24,8 +30,8 @@ class ForceTouchGestureRecognizer: UIGestureRecognizer {
                 state = .began
             }
         case .began, .changed:
-            if trackingTouch == touch, touch.force < minimumForceToActivate && cancelsIfTouchLightens {
-                state = .cancelled
+            if trackingTouch == touch, touch.force < minimumForceToActivate {
+                state = cancelsIfTouchLightens ? .cancelled : .ended
                 trackingTouch = nil
             }
         case .ended, .failed, .cancelled:
@@ -55,7 +61,7 @@ class ForceTouchGestureRecognizer: UIGestureRecognizer {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
         if let t = trackingTouch, touches.contains(t) {
-            state = .ended
+            state = (state == .changed) ? .ended : .cancelled
             trackingTouch = nil
         }
         super.touchesEnded(touches, with: event)
@@ -63,7 +69,7 @@ class ForceTouchGestureRecognizer: UIGestureRecognizer {
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
         if let t = trackingTouch, touches.contains(t) {
-            state = .cancelled
+            state = (state == .changed) ? .ended : .cancelled
         }
         super.touchesCancelled(touches, with: event)
     }
@@ -78,5 +84,9 @@ extension ForceTouchGestureRecognizer: GestureRecognizerStateChangeBroadcaster {
             }
         }
     }
-    var recognizerName: String? { return "FORCE" }
+    var recognizerName: String? { return "Force" }
+    var recognizerDetails: String {
+        if state == .possible || state.isTerminalState { return "" }
+        return "\(Double(Int(currentForce * 100)) / 100.0)"
+    }
 }

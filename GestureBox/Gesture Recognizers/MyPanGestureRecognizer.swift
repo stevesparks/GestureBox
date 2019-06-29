@@ -18,6 +18,13 @@ class MyPanGestureRecognizer: UIPanGestureRecognizer, GestureRecognizerStateChan
         }
     }
 
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
+        super.touchesMoved(touches, with: event)
+        if self.state == .changed || self.state == .began {
+            stateDelegate?.stateDidChange(for: self)
+        }
+    }
+
     // This allows both pan and swipe to activate
     override func canPrevent(_ preventedGestureRecognizer: UIGestureRecognizer) -> Bool {
         if preventedGestureRecognizer is UISwipeGestureRecognizer {
@@ -26,11 +33,16 @@ class MyPanGestureRecognizer: UIPanGestureRecognizer, GestureRecognizerStateChan
         return super.shouldRequireFailure(of: preventedGestureRecognizer)
     }
 
-    override func canBePrevented(by preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
-        if preventingGestureRecognizer is UISwipeGestureRecognizer {
-            return !willFailSwipes
-        }
-        return super.shouldBeRequiredToFail(by: preventingGestureRecognizer)
+//    override func canBePrevented(by preventingGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        if preventingGestureRecognizer is UISwipeGestureRecognizer {
+//            return !willFailSwipes
+//        }
+//        return super.shouldBeRequiredToFail(by: preventingGestureRecognizer)
+//    }
+
+    var recognizerDetails: String {
+        let p = translation(in: nil)
+        return "\(Int(p.x)), \(Int(p.y))"
     }
 }
 

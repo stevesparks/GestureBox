@@ -31,4 +31,7 @@ class MySwipeGestureRecognizer: UISwipeGestureRecognizer, GestureRecognizerState
         }
         return super.shouldBeRequiredToFail(by: otherGestureRecognizer)
     }
+    var recognizerDetails: String {
+        return ""
+    }
 }

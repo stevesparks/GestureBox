@@ -16,10 +16,12 @@ protocol GestureRecognizerStateChangeListener: NSObjectProtocol {
 protocol GestureRecognizerStateChangeBroadcaster: NSObjectProtocol {
     var stateDelegate: GestureRecognizerStateChangeListener? { get set }
     var recognizerName: String? { get }
+    var recognizerDetails: String { get }
 }
 
 extension GestureRecognizerStateChangeBroadcaster {
     var recognizerName: String? { return nil }
+//    var details: String { return "" }
 }
 
 class MyLongPressGestureRecognizer: UILongPressGestureRecognizer, GestureRecognizerStateChangeBroadcaster {
@@ -28,6 +30,9 @@ class MyLongPressGestureRecognizer: UILongPressGestureRecognizer, GestureRecogni
         didSet {
             stateDelegate?.stateDidChange(for: self)
         }
+    }
+    var recognizerDetails: String {
+        return ""
     }
 }
 
@@ -39,6 +44,12 @@ class MyPinchGestureRecognizer: UIPinchGestureRecognizer, GestureRecognizerState
             stateDelegate?.stateDidChange(for: self)
         }
     }
+
+    var recognizerDetails: String {
+        if state == .possible { return "" }
+        let scale = Double(Int(self.scale * 100)) / 100.0
+        return "\(scale)x"
+    }
 }
 
 class MyRotationGestureRecognizer: UIRotationGestureRecognizer, GestureRecognizerStateChangeBroadcaster {
@@ -47,6 +58,11 @@ class MyRotationGestureRecognizer: UIRotationGestureRecognizer, GestureRecognize
         didSet {
             stateDelegate?.stateDidChange(for: self)
         }
+    }
+    var recognizerDetails: String {
+        if state == .possible { return "" }
+        let rot = rotation * (180.0 / CGFloat.pi)
+        return "\(Int(rot))º"
     }
 }
 
@@ -92,23 +108,30 @@ extension UIGestureRecognizer {
         if self is UITapGestureRecognizer { return "Tap" }
         if self is UIPinchGestureRecognizer { return "Pinch" }
         if self is UISwipeGestureRecognizer {
-            guard let direction = (self as? UISwipeGestureRecognizer)?.direction else { return "SWIPE" }
+            guard let direction = (self as? UISwipeGestureRecognizer)?.direction else { return "Swipe" }
             var directions = [String]()
-            if direction.contains(.up) { directions.append("UP") }
-            if direction.contains(.down) { directions.append("DOWN") }
-            if direction.contains(.left) { directions.append("LEFT") }
-            if direction.contains(.right) { directions.append("RIGHT") }
+            if direction.contains(.up) { directions.append("Up") }
+            if direction.contains(.down) { directions.append("Down") }
+            if direction.contains(.left) { directions.append("Left") }
+            if direction.contains(.right) { directions.append("Right") }
 
             switch directions.count {
             case 1:
-                return directions.first ?? "SWIPE"
+                return directions.first ?? "Swipe"
             default:
-                return "SWIPE"
+                return "Swipe"
             }
         }
         if self is UIRotationGestureRecognizer { return "Rotate" }
-        if self is UILongPressGestureRecognizer { return "Long" }
+        if self is UILongPressGestureRecognizer { return "Long Touch" }
         return "Unknown"
+    }
+
+    var details: String {
+        if let c = self as? GestureRecognizerStateChangeBroadcaster {
+            return c.recognizerDetails
+        }
+        return ""
     }
 
     private struct AssociatedKeys {

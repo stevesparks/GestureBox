@@ -19,24 +19,16 @@ class GestureView: UIView {
         setup()
     }
 
-    var label = UILabel()
-
-    func setup() {
-        addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        addConstraints([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.centerXAnchor.constraint(equalTo: centerXAnchor)
-            ])
-        label.font = UIFont.systemFont(ofSize: 24)
-        label.textColor = .white
-
-        addGestureRecognizers()
-    }
-
-
     func addGestureRecognizers() {
-        addGestureRecognizer(tap)
+        addGestureRecognizer(tap1t1)
+        addGestureRecognizer(tap1t2)
+        addGestureRecognizer(tap1t3)
+        addGestureRecognizer(tap2t1)
+        addGestureRecognizer(tap2t2)
+        addGestureRecognizer(tap2t3)
+        addGestureRecognizer(tap3t1)
+        addGestureRecognizer(tap3t2)
+        addGestureRecognizer(tap3t3)
         addGestureRecognizer(pan)
         addGestureRecognizer(pinch)
         addGestureRecognizer(spin)
@@ -48,7 +40,22 @@ class GestureView: UIView {
         addGestureRecognizer(force)
     }
 
-    lazy var tap = MyTapGestureRecognizer(target: self, action: #selector(didTap(_:)))
+    func tapGestureRecognizer(taps: Int, touches: Int) -> MyTapGestureRecognizer {
+        let tap = MyTapGestureRecognizer(target: self, action: #selector(didTap(_:)))
+        tap.numberOfTapsRequired = taps
+        tap.numberOfTouchesRequired = touches
+        return tap
+    }
+    lazy var tap1t1 = tapGestureRecognizer(taps: 1, touches: 1)
+    lazy var tap1t2 = tapGestureRecognizer(taps: 1, touches: 2)
+    lazy var tap1t3 = tapGestureRecognizer(taps: 1, touches: 3)
+    lazy var tap2t1 = tapGestureRecognizer(taps: 2, touches: 1)
+    lazy var tap2t2 = tapGestureRecognizer(taps: 2, touches: 2)
+    lazy var tap2t3 = tapGestureRecognizer(taps: 2, touches: 3)
+    lazy var tap3t1 = tapGestureRecognizer(taps: 3, touches: 1)
+    lazy var tap3t2 = tapGestureRecognizer(taps: 3, touches: 2)
+    lazy var tap3t3 = tapGestureRecognizer(taps: 3, touches: 3)
+
     lazy var pan: UIPanGestureRecognizer = {
         let pan = MyPanGestureRecognizer(target: self, action: #selector(didPan(_:)))
         
@@ -117,14 +124,23 @@ class GestureView: UIView {
         setLabelText("\(sender.broadcasterName)", sender.stateColor)
     }
 
+
+    func setup() {
+        addGestureRecognizers()
+    }
+
     func setLabelText(_ text: String, _ color: UIColor = .white) {
-        label.text = text
-        label.backgroundColor = color
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            guard text == self.label.text else { return }
-            self.label.backgroundColor = .clear
-            self.label.text = ""
-        }
+//        let label = UILabel()
+//        label.font = UIFont.systemFont(ofSize: 24)
+//        label.textColor = .white
+//        label.text = text
+//
+//        let centerY = label.centerYAnchor.constraint(equalTo: centerYAnchor)
+//        let centerX = label.centerXAnchor.constraint(equalTo: centerXAnchor)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        addSubview(label)
+//        addConstraints([centerY, centerX])
+//        label.backgroundColor = color
     }
 }
 
@@ -138,31 +154,27 @@ extension GestureView: UICollectionViewDataSource {
         case force
     }
 
+    var items: [UIGestureRecognizer] { return
+        [
+            self.tap1t1, self.tap1t2, self.tap1t3,
+            self.tap2t1, self.tap2t2, self.tap2t3,
+            self.tap3t1, self.tap3t2, self.tap3t3,
+            self.pan, self.swipeUp, self.pinch,
+            self.swipeLeft, self.force, self.swipeRight,
+            self.spin, self.swipeDown, self.longPress
+        ]
+
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return items.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! GRCollectionViewCell
-        let gr: UIGestureRecognizer = {
-            switch indexPath.row {
-            case 0: return tap
-            case 1: return pan
-            case 2: return pinch
-            case 3: return spin
-            case 4: return swipeLeft
-            case 5: return swipeRight
-            case 6: return swipeUp
-            case 7: return swipeDown
-            case 8: return force
-            default: return tap
-            }
-        }()
+        let gr: UIGestureRecognizer = items[indexPath.row]
         cell.gestureRecognizer = gr
         return cell
     }
-
-
 }
 
 extension GestureView: UICollectionViewDelegate {
