@@ -24,12 +24,19 @@ class GRCollectionViewCell: UICollectionViewCell {
             detailsLabel.textColor = .white
         }
     }
+    var textColor: UIColor = .white {
+        didSet {
+            nameLabel.textColor = textColor
+            stateLabel.textColor = textColor
+            detailsLabel.textColor = textColor
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         backgroundColor = UIColor.red.withAlphaComponent(0.5)
         let l = layer
-        l.borderColor = UIColor.white.cgColor
+        l.borderColor = UIColor.darkGray.cgColor
         l.borderWidth = 2.0
         l.cornerRadius = 5.0
         // Initialization code
@@ -54,12 +61,17 @@ class GRCollectionViewCell: UICollectionViewCell {
     }
 
     func populate() {
-        backgroundColor = gestureRecognizer?.stateColor ?? .clear
         if let rec = gestureRecognizer {
+            backgroundColor = rec.stateColor
+            layer.borderColor = rec.stateBorderColor
+            textColor = rec.stateTextColor
             nameLabel.text = rec.broadcasterName
             stateLabel.text = rec.state.description
             detailsLabel.text = rec.details
         } else {
+            backgroundColor = .clear
+            layer.borderColor = UIColor.darkGray.cgColor
+            textColor = .white
             nameLabel.text = ""
             stateLabel.text = ""
             detailsLabel.text = ""

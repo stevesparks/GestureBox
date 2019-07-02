@@ -41,6 +41,7 @@ class MyPanGestureRecognizer: UIPanGestureRecognizer, GestureRecognizerStateChan
 //    }
 
     var recognizerDetails: String {
+        guard state != .possible && !state.isTerminalState else { return "" }
         let p = translation(in: nil)
         return "\(Int(p.x)), \(Int(p.y))"
     }

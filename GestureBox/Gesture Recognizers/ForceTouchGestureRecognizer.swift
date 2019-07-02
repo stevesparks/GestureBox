@@ -37,6 +37,8 @@ class ForceTouchGestureRecognizer: UIGestureRecognizer {
         case .ended, .failed, .cancelled:
             state = .possible
             reset()
+        @unknown default:
+            break
         }
     }
 

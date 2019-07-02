@@ -72,7 +72,7 @@ extension UIGestureRecognizer.State: CustomStringConvertible {
         case .began: return "Began"
         case .possible: return "possible"
         case .changed: return "changed"
-        case .ended: return "ended"
+        case .ended: return "recognized"
         case .cancelled: return "cancelled"
         case .failed: return "failed"
         }

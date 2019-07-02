@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E2016F622C81894007EDB87 /* StateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2016F522C81894007EDB87 /* StateMachine.swift */; };
+		0E57619722C8D09600BC3182 /* GestureView+CollectionViewSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E57619622C8D09500BC3182 /* GestureView+CollectionViewSupport.swift */; };
 		0E9577E722C3B0550038DEB6 /* GestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9577E622C3B0550038DEB6 /* GestureView.swift */; };
 		0E9577E922C3B3740038DEB6 /* GestureDelegateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9577E822C3B3740038DEB6 /* GestureDelegateView.swift */; };
 		0ECB47BC22C2B37000A82FAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECB47BB22C2B37000A82FAF /* AppDelegate.swift */; };
@@ -27,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E2016F522C81894007EDB87 /* StateMachine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateMachine.swift; sourceTree = "<group>"; };
+		0E57619622C8D09500BC3182 /* GestureView+CollectionViewSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GestureView+CollectionViewSupport.swift"; sourceTree = "<group>"; };
 		0E9577E622C3B0550038DEB6 /* GestureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureView.swift; sourceTree = "<group>"; };
 		0E9577E822C3B3740038DEB6 /* GestureDelegateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureDelegateView.swift; sourceTree = "<group>"; };
 		0ECB47B822C2B37000A82FAF /* GestureBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GestureBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +112,7 @@
 				0ED63E7522C664350070745E /* GRCollectionViewCell.swift */,
 				0ED63E7622C664350070745E /* GRCollectionViewCell.xib */,
 				0ED63E7922C668EF0070745E /* GRCollectionView.swift */,
+				0E57619622C8D09500BC3182 /* GestureView+CollectionViewSupport.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 				0ED63E6C22C661160070745E /* MyTapGestureRecognizer.swift */,
 				0ED63E6E22C661420070745E /* MySwipeGestureRecognizer.swift */,
 				0ED63E7022C661630070745E /* MyPanGestureRecognizer.swift */,
+				0E2016F522C81894007EDB87 /* StateMachine.swift */,
 			);
 			path = "Gesture Recognizers";
 			sourceTree = "<group>";
@@ -202,6 +208,7 @@
 				0ECB47BE22C2B37000A82FAF /* ViewController.swift in Sources */,
 				0EFE30A022C5516300E5A754 /* ForceTouchGestureRecognizer.swift in Sources */,
 				0E9577E922C3B3740038DEB6 /* GestureDelegateView.swift in Sources */,
+				0E2016F622C81894007EDB87 /* StateMachine.swift in Sources */,
 				0ECB47BC22C2B37000A82FAF /* AppDelegate.swift in Sources */,
 				0ED63E7722C664350070745E /* GRCollectionViewCell.swift in Sources */,
 				0EFE309E22C5495B00E5A754 /* MyGestureRecognizers.swift in Sources */,
@@ -209,6 +216,7 @@
 				0ED63E6D22C661160070745E /* MyTapGestureRecognizer.swift in Sources */,
 				0ED63E6722C6192F0070745E /* SizeAwareStackView.swift in Sources */,
 				0ED63E6F22C661420070745E /* MySwipeGestureRecognizer.swift in Sources */,
+				0E57619722C8D09600BC3182 /* GestureView+CollectionViewSupport.swift in Sources */,
 				0E9577E722C3B0550038DEB6 /* GestureView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

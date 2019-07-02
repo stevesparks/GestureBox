@@ -9,24 +9,53 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var panImageView: UIImageView! {
+        didSet {
+            panImageView.alpha = gestureView.willPan ? 1.0 : 0.3
+        }
+    }
+    @IBOutlet weak var swipeImageView: UIImageView!
+
+    @IBOutlet weak var allowPanButton: UIButton! {
+        didSet {
+            if let b = allowPanButton {
+            }
+
+        }
+    }
+    @IBOutlet weak var allowDiagonalsButton: UIButton! {
+        didSet {
+            if let b = allowDiagonalsButton {
+            }
+        }
+    }
+    @IBOutlet weak var allowStrictButton: UIButton!
+
     @IBOutlet weak var gestureView: GestureView!
-    @IBOutlet weak var topStack: UIStackView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-
-//        topStack.addArrangedSubview(gestureView.pan.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.tap.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.pinch.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.spin.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.swipeUp.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.swipeLeft.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.swipeDown.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.swipeRight.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.longPress.gestureDelegateView)
-//        topStack.addArrangedSubview(gestureView.force.gestureDelegateView)
     }
+
+    @IBAction func didTapAllowPan(_ sender: Any) {
+        gestureView.willPan = !gestureView.willPan
+        allowPanButton.isSelected = gestureView.willPan
+        panImageView.alpha = gestureView.willPan ? 1.0 : 0.3
+    }
+
+    @IBAction func didTapAllowDiagonals(_ sender: Any) {
+        gestureView.allowDiagonalSwipes = !gestureView.allowDiagonalSwipes
+        if gestureView.allowDiagonalSwipes {
+            swipeImageView.image = UIImage(named: "8-direction")
+        } else {
+            swipeImageView.image = UIImage(named: "4-direction")
+        }
+    }
+
+    @IBAction func didTapAllowStrict(_ sender: Any) {
+
+    }
+
 }
 
 extension NSObject {

@@ -84,10 +84,27 @@ extension UIGestureRecognizer {
         case .possible: return .clear
         case .began: return .purple
         case .changed: return .blue
-
-        case .ended: return UIColor(red: 0, green: 0.4, blue: 0, alpha: 1.0)
-        case .failed: return .red
+        case .ended: return .green
+        case .failed: return UIColor(red: 0.4, green: 0, blue: 0, alpha: 1.0)
         case .cancelled: return .orange
+        @unknown default:
+            return .clear
+        }
+    }
+
+    var stateTextColor: UIColor {
+        switch state {
+        case .possible, .began, .changed, .failed: return .white
+        case .ended, .cancelled: return .black
+        @unknown default:
+            return .white
+        }
+    }
+
+    var stateBorderColor: CGColor {
+        switch state {
+        case .began, .changed, .ended: return UIColor.white.cgColor
+        @unknown default: return UIColor.darkGray.cgColor
         }
     }
 }

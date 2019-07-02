@@ -15,12 +15,22 @@ class GRCollectionView: UICollectionView {
         register(nib, forCellWithReuseIdentifier: "cell")
     }
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if let c = collectionViewLayout as? UICollectionViewFlowLayout {
+            c.scrollDirection = scrollDirection
+        }
+//        collectionViewLayout.
     }
-    */
 
+    var scrollDirection: UICollectionView.ScrollDirection {
+        let orientation = UIDevice.current.orientation
+        switch orientation {
+        case .landscapeLeft, .landscapeRight:
+            return .horizontal
+        case .unknown, .portrait, .portraitUpsideDown, .faceUp, .faceDown:
+            return .vertical
+        @unknown default:
+            return .vertical
+        }
+    }
 }
